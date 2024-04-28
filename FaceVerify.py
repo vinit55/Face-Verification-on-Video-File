@@ -1,8 +1,10 @@
+import sys
 import cv2
 import numpy as np
 from keras_facenet import FaceNet
 
 def FaceVerification(vs):
+    print('Searching in Frames...')
     total_frames = int(vs.get(cv2.CAP_PROP_FRAME_COUNT))
     frame=0
     while frame<total_frames:
@@ -11,6 +13,7 @@ def FaceVerification(vs):
 
         # Searching in every 5th frame
         if frame%5==0:
+            print('Frame# ',frame)
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             faces = facecascade.detectMultiScale(gray, 1.1, 15, minSize=(60, 60))
 
@@ -20,14 +23,10 @@ def FaceVerification(vs):
                 # Return output as 1 - multiple faces found
                 print('Multiple faces detected')
                 return 1
-
-            face_list = []
-            for (x,y,w,h) in faces:
-                face_list.append([x,y,w,h])
             
-            x,y,w,h = faces[0][0],faces[0][1],faces[0][2],faces[0][3]
+            x,y,w,h = faces[0]
             face1 = image[y:y+h, x:x+w]
-            x,y,w,h = faces[1][0],faces[1][1],faces[1][2],faces[1][3]
+            x,y,w,h = faces[1]
             face2 = image[y:y+h, x:x+w]
 
             # Resize faces to match the input size of FaceNet model
@@ -51,10 +50,15 @@ def FaceVerification(vs):
     return 0
     
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Add Video file path")
+        sys.exit(1)
+        
+    video_path = sys.argv[1]
     facenet_model = FaceNet()
     threshold = 1.1
     facecascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    vs = cv2.VideoCapture('dataset/veriff19.mp4')
+    vs = cv2.VideoCapture(video_path)
 
     result = FaceVerification(vs)
     print(result)
