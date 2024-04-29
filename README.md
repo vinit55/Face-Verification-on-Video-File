@@ -12,6 +12,10 @@ This repository contains code for detecting and verifying faces in a video file.
     - ```
       pip install keras-facenet
       ```
+- MTCNN
+    - ```
+      pip install mtcnn
+      ```
 
 ## Installation
 
