@@ -44,7 +44,6 @@ def FaceVerification(vs):
 
             # Calculate Score
             distance = np.linalg.norm(embedding1 - embedding2)
-            print(distance)
 
             if distance > threshold:
                 if fail_count>2:

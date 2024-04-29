@@ -5,25 +5,29 @@ from keras_facenet import FaceNet
 
 def FaceVerification(vs):
     print('Searching in Frames...')
-    total_frames = int(vs.get(cv2.CAP_PROP_FRAME_COUNT))
+    total_frames = int(vs.get(cv2.CAP_PROP_FRAME_COUNT)) # Frames Count
     frame=0
     while frame<total_frames:
-        _, image = vs.read()
+        _, image = vs.read() # read frame as images
         frame+=1
 
         # Searching in every 5th frame
         if frame%5==0:
             print('Frame# ',frame)
+
+            # Using Grayscale images 
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             faces = facecascade.detectMultiScale(gray, 1.1, 15, minSize=(60, 60))
 
             if len(faces)<2:
+                # If 1 or no face detected then just continue to next frame
                 continue
             elif len(faces)>2:
                 # Return output as 1 - multiple faces found
                 print('Multiple faces detected')
                 return 1
             
+            # Use Detected face coordinates to crop faces
             x,y,w,h = faces[0]
             face1 = image[y:y+h, x:x+w]
             x,y,w,h = faces[1]
@@ -61,5 +65,5 @@ if __name__ == "__main__":
     vs = cv2.VideoCapture(video_path)
 
     result = FaceVerification(vs)
-    print(result)
+    print('Final Output: ',result)
    
