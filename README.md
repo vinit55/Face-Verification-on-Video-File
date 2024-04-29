@@ -32,8 +32,12 @@ This repository contains code for detecting and verifying faces in a video file.
     ```
 
 ## Usage
+Navigate
+```
+cd Face-Verification-on-Video-File
+```
 
-To detect faces in a video, run the following command:
+To detect faces in a video, run one of the following command:
 - MTCNN + FaceNet Model
 ```bash
 python FaceVerify_MTCNN.py <video_filepath>
