@@ -17,11 +17,13 @@ def FaceVerification(vs):
         if frame%5==0:
             print('Frame# ',frame)
 
+            # MTCNN needs RGB image formate while OpenCV reads it in BGR
             image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
             # Detect faces in the image
             faces = detector.detect_faces(image_rgb)
             if len(faces)<2:
+                # If 1 or no face detected then just continue to next frame
                 continue
             elif len(faces)>2:
                 # Return output as 1 - multiple faces found
